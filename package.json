@@ -1,0 +1,26 @@
+{
+  "name": "tcgdeckbuilder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CNFishead/TCGDeckBuilder.git"
+  },
+  "keywords": [
+    "deck",
+    "building",
+    "tcg",
+    "pokemon",
+    "deck-building"
+  ],
+  "author": "Austin Howard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CNFishead/TCGDeckBuilder/issues"
+  },
+  "homepage": "https://github.com/CNFishead/TCGDeckBuilder#readme"
+}
