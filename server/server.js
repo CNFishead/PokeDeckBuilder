@@ -11,7 +11,7 @@ const hpp = require("hpp");
 
 dotenv.config();
 
-connectDB();
+// connectDB();
 
 const app = express();
 
@@ -19,9 +19,8 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-const userRoutes = require("./routes/userRoutes");
-
-app.use("/api/users", userRoutes);
+const cardRoutes = require("./routes/cardRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 app.use(express.json());
 app.use(fileUpload());
@@ -30,6 +29,9 @@ app.use(mongoSanitize());
 app.use(xss());
 // Prevent hpp pollution
 app.use(hpp());
+
+app.use("/api/card", cardRoutes);
+app.use("/api/auth", authRoutes);
 
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")));

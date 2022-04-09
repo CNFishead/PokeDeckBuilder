@@ -1,5 +1,7 @@
 const asyncHandler = require("../../middleware/async");
-const User = require("../../models/userModel");
+const bcyrpt = require("bcryptjs");
+const generateToken = require("../../utils/generateToken");
+const DB = require("../../config/db");
 
 /**
  * @description Validate User, Send back Token
@@ -12,16 +14,32 @@ const User = require("../../models/userModel");
  */
 const authUser = asyncHandler(async (req, res) => {
   try {
+    // console.log(req.body);
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email.toLowerCase() });
+
+    const db = await new DB(
+      process.env.MONGO_URI,
+      process.env.DBNAME
+    ).connect();
+    const user = await db
+      .collection("users")
+      .findOne({ email: email.toLowerCase() });
+
+    if (!user) {
+      console.log(user);
+      return res.status(404).json({ message: `account not found` });
+    }
+    // const user = await User.findOne({ email: email.toLowerCase() });
     if (!user.isActive) {
       return res.status(404).json({ message: `Account was disabled` });
     }
-    if(!user.isAdmin){
-      return res.status(400).json({message: `You are not Authorized to access this application`})
+    if (!user.isAdmin) {
+      return res
+        .status(400)
+        .json({ message: `You are not Authorized to access this application` });
     }
     // User Auth
-    if (user && (await user.matchPassword(password))) {
+    if (user && (await matchPassword(password, user.password))) {
       res.json({
         _id: user._id,
         name: user.name,
@@ -33,7 +51,13 @@ const authUser = asyncHandler(async (req, res) => {
       res.status(401).json({ message: "Invalid email or password" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Server Error, please try again later!" });
+    console.error(error);
+    res.status(500).json({ message: `Server Error: ${error.message}` });
   }
 });
+
+const matchPassword = async function (enteredPassword, dbPassword) {
+  return await bcyrpt.compare(enteredPassword, dbPassword);
+};
+
 module.exports = authUser;

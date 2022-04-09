@@ -1,13 +1,25 @@
-const mongoose = require("mongoose");
+const { MongoClient, db } = require("mongodb");
 
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline);
-  } catch (e) {
-    console.log(`Error: ${e.message}`.red.underline.bold);
-    process.exit(1);
+var database;
+class DB {
+  constructor(url, dbName) {
+    this.url = url;
+    this.dbName = dbName;
   }
-};
 
-module.exports = connectDB;
+  async connect() {
+    console.log("connecting to database " + this.dbName);
+    return new Promise((resolve, reject) => {
+      MongoClient.connect(this.url, (err, client) => {
+        if (err) {
+          reject(err);
+        } else {
+          database = client.db(this.dbName);
+          resolve(client.db(this.dbName));
+        }
+      });
+    });
+  }
+}
+
+module.exports = DB;
