@@ -6,7 +6,6 @@ const crypto = require("crypto");
 const userSchema = mongoose.Schema({}, { strict: false });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  console.log(this.password);
   return await bcyrpt.compare(enteredPassword, this.password);
 };
 

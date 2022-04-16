@@ -16,7 +16,6 @@ const authUser = asyncHandler(async (req, res) => {
   try {
     // console.log(req.body);
     const { email, password } = req.body;
-    console.log(`email: ${email}, password: ${password}`);
     const user = await User.findOne({ email: email.toLowerCase() }).select(
       "+password"
     );
