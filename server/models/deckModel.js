@@ -9,7 +9,7 @@ const deckSchema = mongoose.Schema(
     type: {
       type: String,
     },
-    cards: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    cards: [Object],
   },
   { timestamps: true }
 );

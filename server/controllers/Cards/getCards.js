@@ -1,6 +1,7 @@
 const DB = require("../../config/db");
 const asyncHandler = require("../../middleware/async");
 const Card = require("../../models/cardModel");
+const Product = require("../../models/productModel");
 
 /**
  *  @description  This function serves to return objects from the database, namely cards
@@ -13,7 +14,7 @@ const Card = require("../../models/cardModel");
  *  @constant     cards Array of {Product} objects [{Product}, {Product}, ...{Products}] returned to the client
  *  @exports      JSON
  */
-module.exports = getCards = asyncHandler(async (req, res) => {
+module.exports = asyncHandler(async (req, res) => {
   try {
     const pageSize = 10;
     const page = Number(req.query.pageNumber) || 1;
@@ -28,11 +29,11 @@ module.exports = getCards = asyncHandler(async (req, res) => {
     const category = req.query.category
       ? { category: { $regex: req.query.category, $options: "i" } }
       : {};
-    const count = await Card.countDocuments({
+    const count = await Product.countDocuments({
       ...keyword,
       ...category,
     });
-    const cards = await Card.aggregate([
+    const products = await Product.aggregate([
       {
         $match: { ...keyword, ...category },
       },
@@ -63,7 +64,7 @@ module.exports = getCards = asyncHandler(async (req, res) => {
     ]);
 
     res.json({
-      cards,
+      products,
       page,
       pages: Math.ceil(count / pageSize),
       prevPage: page - 1,

@@ -46,9 +46,4 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-const matchPassword = async function (enteredPassword, hashedPassword) {
-  console.log(hashedPassword);
-  return await bcyrpt.compare(enteredPassword, hashedPassword);
-};
-
 module.exports = authUser;
