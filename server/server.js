@@ -11,7 +11,7 @@ const hpp = require("hpp");
 
 dotenv.config();
 
-// connectDB();
+connectDB();
 
 const app = express();
 

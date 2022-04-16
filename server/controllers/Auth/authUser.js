@@ -1,7 +1,7 @@
 const asyncHandler = require("../../middleware/async");
 const bcyrpt = require("bcryptjs");
 const generateToken = require("../../utils/generateToken");
-const DB = require("../../config/db");
+const User = require("../../models/userModel");
 
 /**
  * @description Validate User, Send back Token
@@ -16,20 +16,10 @@ const authUser = asyncHandler(async (req, res) => {
   try {
     // console.log(req.body);
     const { email, password } = req.body;
-
-    const db = await new DB(
-      process.env.MONGO_URI,
-      process.env.DBNAME
-    ).connect();
-    const user = await db
-      .collection("users")
-      .findOne({ email: email.toLowerCase() });
-
-    if (!user) {
-      console.log(user);
-      return res.status(404).json({ message: `account not found` });
-    }
-    // const user = await User.findOne({ email: email.toLowerCase() });
+    console.log(`email: ${email}, password: ${password}`);
+    const user = await User.findOne({ email: email.toLowerCase() }).select(
+      "+password"
+    );
     if (!user.isActive) {
       return res.status(404).json({ message: `Account was disabled` });
     }
@@ -38,8 +28,9 @@ const authUser = asyncHandler(async (req, res) => {
         .status(400)
         .json({ message: `You are not Authorized to access this application` });
     }
+
     // User Auth
-    if (user && (await matchPassword(password, user.password))) {
+    if (user && (await user.matchPassword(password))) {
       res.json({
         _id: user._id,
         name: user.name,
@@ -56,8 +47,9 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-const matchPassword = async function (enteredPassword, dbPassword) {
-  return await bcyrpt.compare(enteredPassword, dbPassword);
+const matchPassword = async function (enteredPassword, hashedPassword) {
+  console.log(hashedPassword);
+  return await bcyrpt.compare(enteredPassword, hashedPassword);
 };
 
 module.exports = authUser;

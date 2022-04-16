@@ -1,54 +1,12 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+const bcyrpt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
-const userSchema = mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        "Please add a valid email",
-      ],
-      required: [true, "Please add an email"],
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: [true, "Please add a password"],
-      minlength: 10,
-    },
-    isAdmin: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    profileImageUrl: {
-      type: String,
-      default: "/images/no-photo.png",
-    },
-    sex: {
-      type: String,
-      enum: ["male", "female"],
-    },
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
-  },
-  {
-    timestamps: true,
-  }
-);
+const userSchema = mongoose.Schema({}, { strict: false });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
+  console.log(this.password);
   return await bcyrpt.compare(enteredPassword, this.password);
 };
 

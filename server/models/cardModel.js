@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const cardSchema = mongoose.Schema({}, { timestamps: true });
+const cardSchema = mongoose.Schema({}, { strict: false });
 
-const Card = mongoose.model("Card", cardSchema);
+const Card = mongoose.model("Product", cardSchema);
 
 module.exports = Card;

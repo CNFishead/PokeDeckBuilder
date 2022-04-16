@@ -1,5 +1,6 @@
 const DB = require("../../config/db");
 const asyncHandler = require("../../middleware/async");
+const Card = require("../../models/cardModel");
 
 /**
  *  @description  This function serves to return objects from the database, namely cards
@@ -27,47 +28,39 @@ module.exports = getCards = asyncHandler(async (req, res) => {
     const category = req.query.category
       ? { category: { $regex: req.query.category, $options: "i" } }
       : {};
-    const db = await new DB(
-      process.env.MONGO_URI,
-      process.env.DBNAME
-    ).connect();
-    const count = await db.collection("products").countDocuments({
+    const count = await Card.countDocuments({
       ...keyword,
       ...category,
     });
-
-    const cards = await db
-      .collection("products")
-      .aggregate([
-        {
-          $match: { ...keyword, ...category },
-        },
-        {
-          $addFields: {
-            isInStock: {
-              // Helper field. This is 1 if there are items in stock.
-              $cond: {
-                if: "$countInStock",
-                then: 1,
-                else: 0,
-              },
+    const cards = await Card.aggregate([
+      {
+        $match: { ...keyword, ...category },
+      },
+      {
+        $addFields: {
+          isInStock: {
+            // Helper field. This is 1 if there are items in stock.
+            $cond: {
+              if: "$countInStock",
+              then: 1,
+              else: 0,
             },
           },
         },
-        {
-          $sort: {
-            isInStock: -1,
-            price: -1,
-          },
+      },
+      {
+        $sort: {
+          isInStock: -1,
+          price: -1,
         },
-        {
-          $skip: pageSize * (page - 1),
-        },
-        {
-          $limit: pageSize,
-        },
-      ])
-      .toArray();
+      },
+      {
+        $skip: pageSize * (page - 1),
+      },
+      {
+        $limit: pageSize,
+      },
+    ]);
 
     res.json({
       cards,
