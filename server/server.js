@@ -36,7 +36,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/deck", deckRoutes);
 
 // Set static folder
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));

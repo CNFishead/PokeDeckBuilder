@@ -1,0 +1,4 @@
+export const GET_DECKS_REQUEST = "GET_DECKS_REQUEST";
+export const GET_DECKS_SUCCESS = "GET_DECKS_SUCCESS";
+export const GET_DECK = "GET_DECK";
+export const GET_DECK_REQUEST = "GET_DECK_REQUEST";

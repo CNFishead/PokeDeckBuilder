@@ -19,6 +19,9 @@ const authUser = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email: email.toLowerCase() }).select(
       "+password"
     );
+    if (!user) {
+      return res.status(400).json({ message: `Invalid Credentials` });
+    }
     if (!user.isActive) {
       return res.status(404).json({ message: `Account was disabled` });
     }

@@ -9,6 +9,10 @@ const deckSchema = mongoose.Schema(
     type: {
       type: String,
     },
+    image: {
+      type: String,
+      default: '/images/sample.jpg'
+    },
     cards: [Object],
   },
   { timestamps: true }
