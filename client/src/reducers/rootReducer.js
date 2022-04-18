@@ -3,7 +3,12 @@ import { combineReducers } from "redux";
 // reducers
 import { alert } from "./alertReducer";
 import { userLoginReducer } from "./authReducer";
-import { getDeckReducer, listDeckReducer } from "./deckReducer";
+import {
+  deckCreateReducer,
+  getDeckReducer,
+  listDeckReducer,
+} from "./deckReducer";
+import { uploadImageReducer } from "./uploadReducer";
 
 export const rootReducer = combineReducers({
   // Reducer for Alert
@@ -13,4 +18,7 @@ export const rootReducer = combineReducers({
   // Deck Reducers
   listDecks: listDeckReducer,
   listDeckDetails: getDeckReducer,
+  deckCreate: deckCreateReducer,
+  // upload reducers,
+  imageUploader: uploadImageReducer,
 });

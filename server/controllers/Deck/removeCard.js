@@ -32,7 +32,14 @@ module.exports = asyncHandler(async (req, res) => {
         .json({ message: `Card: ${req.params.cardId} cannot be found` });
     }
     // add the card to the the deck of cards
-    deck.cards = deck.cards.filter((c) => c._id === card._id);
+    deck.cards = deck.cards.filter((c) => {
+      console.log(
+        `c: ${c._id} vs card: ${card.id} === ${
+          c._id.toString() === card.id.toString()
+        }`
+      );
+      return c._id.toString() !== card.id.toString();
+    });
     // save the deck in the db
     await deck.save();
 

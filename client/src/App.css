@@ -1,4 +1,10 @@
 @import url('bootstrap.min.css');
+:root{
+  --danger: #df001b;
+  --danger-dark: #b30217;
+  --secondary: #bcbcbc;
+  --secondary-dark: #9e9e9e;
+}
 
 a{
   text-decoration: none;

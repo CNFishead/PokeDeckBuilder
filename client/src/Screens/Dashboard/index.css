@@ -1,0 +1,26 @@
+.create-button-container{
+  text-align: end;
+  width: 100%;
+  margin: 2% 0;
+}
+
+.deck-icons-container{
+  
+  right: 2%;
+  position: absolute;
+  font-size: 2em;
+}
+.deck-icon-delete{
+  color: var(--danger);
+}
+.deck-icon-delete:hover{
+  color: var(--danger-dark);
+  cursor: pointer;
+}
+.deck-icon-edit{
+  color: var(--bs-gray-500);
+}
+.deck-icon-edit:hover{
+  color: var(--bs-gray-700);
+  cursor: pointer;
+}
