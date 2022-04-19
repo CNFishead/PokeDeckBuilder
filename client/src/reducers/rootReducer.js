@@ -7,6 +7,7 @@ import {
   deckCreateReducer,
   getDeckReducer,
   listDeckReducer,
+  updateDeckReducer,
 } from "./deckReducer";
 import { uploadImageReducer } from "./uploadReducer";
 
@@ -19,6 +20,7 @@ export const rootReducer = combineReducers({
   listDecks: listDeckReducer,
   listDeckDetails: getDeckReducer,
   deckCreate: deckCreateReducer,
+  updateDeck: updateDeckReducer,
   // upload reducers,
   imageUploader: uploadImageReducer,
 });

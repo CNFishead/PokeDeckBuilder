@@ -8,6 +8,9 @@ import {
   GET_DECKS_SUCCESS,
   GET_DECK_ERROR,
   GET_DECK_REQUEST,
+  UPDATE_DECK_FAIL,
+  UPDATE_DECK_REQUEST,
+  UPDATE_DECK_SUCCESS,
 } from "../constants/deckConstants";
 
 export const listDeckReducer = (
@@ -25,7 +28,7 @@ export const listDeckReducer = (
 };
 
 export const getDeckReducer = (
-  state = { loading: false, deck: null },
+  state = { loading: false, deck: {} },
   action
 ) => {
   switch (action.type) {
@@ -52,6 +55,22 @@ export const deckCreateReducer = (
       return { loading: false, error: action.payload };
     case DECK_CREATE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const updateDeckReducer = (
+  state = { loading: false, success: false, deck: {} },
+  action
+) => {
+  switch (action.type) {
+    case UPDATE_DECK_REQUEST:
+      return { ...state, loading: true };
+    case UPDATE_DECK_SUCCESS:
+      return { ...state, loading: false, success: true, deck: action.payload };
+    case UPDATE_DECK_FAIL:
+      return { ...state, loading: false };
     default:
       return state;
   }

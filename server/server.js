@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === "development") {
 const cardRoutes = require("./routes/cardRoutes");
 const authRoutes = require("./routes/authRoutes");
 const deckRoutes = require("./routes/deckRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 
 app.use(express.json());
 app.use(fileUpload());
@@ -34,7 +35,7 @@ app.use(hpp());
 app.use("/api/card", cardRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/deck", deckRoutes);
-
+app.use("/api/upload", uploadRoutes);
 // Set static folder
 app.use(express.static(path.join(__dirname, "../public")));
 
