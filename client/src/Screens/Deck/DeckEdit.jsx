@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Image, Row } from "react-bootstrap";
+import { Card, Col, Container, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { removeCard } from "../../actions/Deck/removeCard";
 import { getDeck } from "../../actions/Deck/getDeck";
 import { updateDeck } from "../../actions/Deck/updateDeck";
 import DeckEditForm from "../../components/forms/Deck/DeckEditForm";
@@ -44,6 +45,7 @@ const DeckEdit = () => {
     if (imageUrl) {
       setDeckForm({ ...deckForm, image: imageUrl });
     }
+    // eslint-disable-next-line
   }, [dispatch, deck._id, deckId, updatedDeck, deck, imageUrl]);
   return (
     <Container>
@@ -72,6 +74,22 @@ const DeckEdit = () => {
                 onSubmit={handleSubmit}
               />
             </Col>
+          </Row>
+          <hr />
+          <Row>
+            {deck.cards &&
+              deck.cards.map((card) => {
+                return (
+                  <Col key={card._id} lg={2}>
+                    <Card
+                      className="tcg-card-image"
+                      onClick={() => dispatch(removeCard(deck._id, card._id))}
+                    >
+                      <Card.Img src={card.imageUrl} />
+                    </Card>
+                  </Col>
+                );
+              })}
           </Row>
         </>
       )}

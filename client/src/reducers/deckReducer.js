@@ -8,6 +8,9 @@ import {
   GET_DECKS_SUCCESS,
   GET_DECK_ERROR,
   GET_DECK_REQUEST,
+  UPDATE_DECK_CARDS_FAIL,
+  UPDATE_DECK_CARDS_REQUEST,
+  UPDATE_DECK_CARDS_SUCCESS,
   UPDATE_DECK_FAIL,
   UPDATE_DECK_REQUEST,
   UPDATE_DECK_SUCCESS,
@@ -32,10 +35,21 @@ export const getDeckReducer = (
   action
 ) => {
   switch (action.type) {
+    case UPDATE_DECK_REQUEST:
     case GET_DECK_REQUEST:
       return { ...state, loading: true };
     case GET_DECK:
       return { loading: false, deck: action.payload };
+    case UPDATE_DECK_CARDS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        deck: {
+          ...state.deck,
+          cards: state.deck.cards.filter((card) => card._id !== action.payload),
+        },
+      };
+    case UPDATE_DECK_CARDS_FAIL:
     case GET_DECK_ERROR:
       return { ...state, loading: false };
     default:
@@ -65,10 +79,11 @@ export const updateDeckReducer = (
   action
 ) => {
   switch (action.type) {
-    case UPDATE_DECK_REQUEST:
+    case UPDATE_DECK_CARDS_REQUEST:
       return { ...state, loading: true };
     case UPDATE_DECK_SUCCESS:
       return { ...state, loading: false, success: true, deck: action.payload };
+
     case UPDATE_DECK_FAIL:
       return { ...state, loading: false };
     default:
