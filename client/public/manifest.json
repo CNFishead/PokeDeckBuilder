@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "TCGDeck Builder",
+  "name": "Pokemon TCG Deck building application",
   "icons": [
     {
       "src": "favicon.ico",

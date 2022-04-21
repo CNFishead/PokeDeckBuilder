@@ -4,14 +4,18 @@ import { combineReducers } from "redux";
 import { alert } from "./alertReducer";
 import { userLoginReducer } from "./authReducer";
 import {
+  cardsReducer,
   deckCreateReducer,
   getDeckReducer,
   listDeckReducer,
   updateDeckReducer,
 } from "./deckReducer";
+import { dynamicReducer } from "./dynamicReducer";
 import { uploadImageReducer } from "./uploadReducer";
 
 export const rootReducer = combineReducers({
+  // dynamic
+  dynamic: dynamicReducer,
   // Reducer for Alert
   alert: alert,
   // Auth Reducers
@@ -21,6 +25,8 @@ export const rootReducer = combineReducers({
   listDeckDetails: getDeckReducer,
   deckCreate: deckCreateReducer,
   updateDeck: updateDeckReducer,
+  // Cards
+  cards: cardsReducer,
   // upload reducers,
   imageUploader: uploadImageReducer,
 });

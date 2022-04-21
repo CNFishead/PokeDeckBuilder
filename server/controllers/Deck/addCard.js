@@ -56,7 +56,7 @@ module.exports = asyncHandler(async (req, res) => {
 
     // respond with the changes.
 
-    res.status(200).json(deck);
+    res.status(200).json(card);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: `Server Error: ${error.message}` });

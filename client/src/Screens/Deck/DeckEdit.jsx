@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Container, Image, Row } from "react-bootstrap";
+import {
+  Card,
+  Col,
+  Container,
+  Image,
+  Row,
+  FormControl,
+  InputGroup,
+  Button,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { removeCard } from "../../actions/Deck/removeCard";
@@ -9,6 +18,9 @@ import DeckEditForm from "../../components/forms/Deck/DeckEditForm";
 import Loader from "../../components/Loader";
 
 import "./index.css";
+import { addCard } from "../../actions/Deck/addCard";
+import { getCards } from "../../actions/Cards/getCards";
+import { CARDS_CLEAR } from "../../constants/deckConstants";
 
 const DeckEdit = () => {
   const { deckId } = useParams();
@@ -20,11 +32,11 @@ const DeckEdit = () => {
     type: "",
     image: "",
   });
-
-  console.log(deckForm);
+  const [search, setSearch] = useState("");
   // App State
   const { deck, loading } = useSelector((state) => state.listDeckDetails);
   const { imageUrl } = useSelector((state) => state.imageUploader);
+  const { cards, loading: cardsLoading } = useSelector((state) => state.cards);
   const { deck: updatedDeck, loading: updateLoader } = useSelector(
     (state) => state.updateDeck
   );
@@ -42,11 +54,14 @@ const DeckEdit = () => {
     } else {
       setDeckForm(deck);
     }
+    if (search !== "") {
+      dispatch(getCards(search));
+    }
     if (imageUrl) {
       setDeckForm({ ...deckForm, image: imageUrl });
     }
     // eslint-disable-next-line
-  }, [dispatch, deck._id, deckId, updatedDeck, deck, imageUrl]);
+  }, [dispatch, deck._id, deckId, updatedDeck, deck, imageUrl, search]);
   return (
     <Container>
       {loading && updateLoader ? (
@@ -75,6 +90,49 @@ const DeckEdit = () => {
               />
             </Col>
           </Row>
+          <hr />
+          <Container>
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="basic-addon1">Search Cards</InputGroup.Text>
+              <FormControl
+                placeholder="Look up cards"
+                aria-label="Look up cards"
+                aria-describedby="basic-addon1"
+                value={search}
+                name="search"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <InputGroup.Text
+                id="basic-addon2"
+                as={Button}
+                onClick={() => dispatch({ type: CARDS_CLEAR })}
+              >
+                Clear Search
+              </InputGroup.Text>
+            </InputGroup>
+            <Row className="justify-content-evenly">
+              {cardsLoading ? (
+                <Loader />
+              ) : (
+                cards &&
+                cards.map((c) => {
+                  return (
+                    <Col key={c._id} lg={3}>
+                      <Card
+                        className="tcg-card-image"
+                        onClick={() => dispatch(addCard(deck._id, c._id))}
+                      >
+                        <Card.Img src={c.image} />
+                        <Card.Text className="text-center">
+                          Amount you have: {c.countInStock}
+                        </Card.Text>
+                      </Card>
+                    </Col>
+                  );
+                })
+              )}
+            </Row>
+          </Container>
           <hr />
           <Row>
             {deck.cards &&

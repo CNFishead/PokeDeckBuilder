@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Container, Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
 import { FaUserAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-// import { getLogo } from "../../actions/Admin/Logo/getLogo";
+import { getLogo } from "../../actions/Logo/getLogo";
 import { Link } from "react-router-dom";
 import { logout } from "../../actions/Auth/logout";
 
@@ -12,13 +12,13 @@ import "./index.css";
 const Header = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  // const { logo } = useSelector((state) => state.dynamic);
+  const { logo } = useSelector((state) => state.dynamic);
 
   const logoutHandler = () => {
     dispatch(logout());
   };
   useEffect(() => {
-    // dispatch(getLogo());
+    dispatch(getLogo());
   }, [dispatch]);
 
   return (
@@ -29,14 +29,19 @@ const Header = () => {
             <Navbar.Brand>
               <span>
                 <Image
-                  // src={logo.value}
-                  src={"/images/sample.jpg"}
-                  style={{ maxWidth: "400px", maxHeight: "100px", padding: '2%' }}
+                  src={logo.value}
+                  // src={"/images/sample.jpg"}
+                  style={{
+                    maxWidth: "400px",
+                    maxHeight: "100px",
+                    padding: "2%",
+                  }}
                   fluid
                 />
               </span>
             </Navbar.Brand>
           </Link>
+          <h3>Pokemon - TCG Deck Builder</h3>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
             id="basic-navbar-nav"
@@ -46,11 +51,11 @@ const Header = () => {
               <div className="text-end">
                 {user ? (
                   <NavDropdown title={user.name} id="username" className="">
-                    <Link to="/profile">
+                    {/* <Link to="/profile">
                       <NavDropdown.Item>
                         <span>Profile</span>
                       </NavDropdown.Item>
-                    </Link>
+                    </Link> */}
                     <NavDropdown.Item onClick={logoutHandler}>
                       Logout
                     </NavDropdown.Item>

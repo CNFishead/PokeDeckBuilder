@@ -26,16 +26,12 @@ module.exports = asyncHandler(async (req, res) => {
           },
         }
       : {};
-    const category = req.query.category
-      ? { category: { $regex: req.query.category, $options: "i" } }
-      : {};
     const count = await Product.countDocuments({
       ...keyword,
-      ...category,
     });
     const products = await Product.aggregate([
       {
-        $match: { ...keyword, ...category },
+        $match: { ...keyword, countInStock: { $gt: 0 } },
       },
       {
         $addFields: {
@@ -59,7 +55,7 @@ module.exports = asyncHandler(async (req, res) => {
         $skip: pageSize * (page - 1),
       },
       {
-        $limit: pageSize,
+        $limit: 3,
       },
     ]);
 
