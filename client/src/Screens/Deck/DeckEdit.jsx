@@ -37,7 +37,7 @@ const DeckEdit = () => {
   const { deck, loading } = useSelector((state) => state.listDeckDetails);
   const { imageUrl } = useSelector((state) => state.imageUploader);
   const { cards, loading: cardsLoading } = useSelector((state) => state.cards);
-  const { deck: updatedDeck, loading: updateLoader } = useSelector(
+  const { loading: updateLoader } = useSelector(
     (state) => state.updateDeck
   );
 
@@ -60,8 +60,8 @@ const DeckEdit = () => {
     if (imageUrl) {
       setDeckForm({ ...deckForm, image: imageUrl });
     }
-    // eslint-disable-next-line
-  }, [dispatch, deck._id, deckId, updatedDeck, deck, imageUrl, search]);
+  
+  }, [dispatch, deckId, deck, imageUrl, search]);
   return (
     <Container style={{padding: '2.5%'}}>
       {loading && updateLoader ? (
