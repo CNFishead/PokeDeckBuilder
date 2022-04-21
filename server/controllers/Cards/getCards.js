@@ -54,9 +54,6 @@ module.exports = asyncHandler(async (req, res) => {
       {
         $skip: pageSize * (page - 1),
       },
-      {
-        $limit: 3,
-      },
     ]);
 
     res.json({
