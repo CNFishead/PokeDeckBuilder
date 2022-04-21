@@ -18,10 +18,10 @@ export const updateDeck = (form) => async (dispatch) => {
       type: UPDATE_DECK_SUCCESS,
       payload: data,
     });
+    dispatch({ type: GET_DECK, payload: data });
     dispatch(
       setAlert(`Deck: ${form.deck_name} was successfully updated`, "success")
     );
-    window.location.reload();
   } catch (error) {
     dispatch({ type: UPDATE_DECK_FAIL });
     const message =
