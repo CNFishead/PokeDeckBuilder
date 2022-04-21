@@ -42,7 +42,12 @@ const Header = () => {
             </Navbar.Brand>
           </Link>
           <h3 className="px-2">Pokemon - TCG Deck Builder</h3>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <div className="navbar-toggle-container">
+            <Navbar.Toggle
+              aria-controls="basic-navbar-nav"
+              className="justify-content-end"
+            />
+          </div>
           <Navbar.Collapse
             id="basic-navbar-nav"
             style={{ justifyContent: "end" }}

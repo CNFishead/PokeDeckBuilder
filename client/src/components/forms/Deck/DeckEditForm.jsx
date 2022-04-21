@@ -75,7 +75,7 @@ const DeckEditForm = ({
           </Form.Group>
         )}
         <Row className="justify-content-center py-2">
-          <Button variant="info" type="submit" style={{ width: "40%" }}>
+          <Button variant="info" type="submit" className="update-button">
             Update Deck Details
           </Button>
         </Row>

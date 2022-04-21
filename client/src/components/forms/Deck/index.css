@@ -4,3 +4,14 @@
 .create-form-button-container .btn{
   margin: 0 2%;
 }
+
+.update-button{
+  width: 40%;
+}
+
+@media (max-width: 720px) {
+  .update-button{
+    width: 75%
+  }
+  
+}

@@ -17,3 +17,10 @@ a{
   display: inline-block;
   z-index: 3;
 }
+
+@media (max-width: 720px) {
+  .hide-sm{
+    display: none;
+  }
+  
+}

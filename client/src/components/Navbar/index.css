@@ -1,18 +1,42 @@
 .navbar {
   background-color: var(--primary);
   width: 100%;
+  position: relative;
+}
+.navbar-toggle-container{
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  padding: 2%
+}
+.navbar h3{
+  font-size: 1.2rem;
+  text-align: start;
 }
 
 @media (max-width: 980px) {
   .navbar-nav {
     flex-direction: row;
-    justify-content: space-evenly;
   }
   .search-box {
     margin: 0 auto;
   }
+  .navbar h3{
+    font-size: 1rem;
+    text-align: start;
+  }
 }
-
+@media (max-width: 480px) {
+  .navbar .container-fluid a {
+    width: 100%;
+    text-align: center;
+  }
+  .navbar h3{
+    font-size: 1.2rem;
+    margin: 0 auto;
+    padding: 1.5%
+  }
+}
 @media (max-width: 360px) {
   .navbar-nav {
     flex-direction: column;

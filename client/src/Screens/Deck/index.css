@@ -4,3 +4,9 @@
 .tcg-card-image:hover{
   cursor: pointer;
 }
+.deck-cards-container{
+  height: 400px;
+  max-height: 400px;
+  overflow: scroll;
+  overflow-x: hidden;
+}

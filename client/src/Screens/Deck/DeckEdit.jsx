@@ -63,7 +63,7 @@ const DeckEdit = () => {
     // eslint-disable-next-line
   }, [dispatch, deck._id, deckId, updatedDeck, deck, imageUrl, search]);
   return (
-    <Container>
+    <Container style={{padding: '2.5%'}}>
       {loading && updateLoader ? (
         <Loader />
       ) : (
@@ -72,7 +72,7 @@ const DeckEdit = () => {
             <h1>{deck.deck_name}</h1>
           </Row>
           <Row>
-            <Col className="text-center">
+            <Col className="text-center" lg={6}>
               <Image
                 src={imageUrl ? imageUrl : deck.image}
                 className="deck-image"
@@ -93,7 +93,9 @@ const DeckEdit = () => {
           <hr />
           <Container>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="basic-addon1">Search Cards</InputGroup.Text>
+              <InputGroup.Text id="basic-addon1" className="hide-sm">
+                Search Cards
+              </InputGroup.Text>
               <FormControl
                 placeholder="Look up cards"
                 aria-label="Look up cards"
@@ -117,7 +119,7 @@ const DeckEdit = () => {
                 cards &&
                 cards.map((c) => {
                   return (
-                    <Col key={c._id} lg={3}>
+                    <Col key={c._id} lg={3} md={3} sm={3} xs={4}>
                       <Card
                         className="tcg-card-image"
                         onClick={() => dispatch(addCard(deck._id, c._id))}
@@ -134,11 +136,18 @@ const DeckEdit = () => {
             </Row>
           </Container>
           <hr />
-          <Row>
+          <Row className="deck-cards-container">
             {deck.cards &&
               deck.cards.map((card) => {
                 return (
-                  <Col key={card._id} lg={2}>
+                  <Col
+                    key={card._id}
+                    lg={2}
+                    md={3}
+                    sm={3}
+                    xs={4}
+                    style={{ padding: ".5%" }}
+                  >
                     <Card
                       className="tcg-card-image"
                       onClick={() => dispatch(removeCard(deck._id, card._id))}
