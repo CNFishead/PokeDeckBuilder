@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ const DeckItem = ({ deck }) => {
       </div>
       <Link to={`/dashboard/deck/${deck._id}/edit`}>
         <Card.Img src={deck.image} />
-        <Card.Text>{deck.deck_name}</Card.Text>
+        <Card.Text className="text-center p-2" as={Button} variant="info" style={{width: '100%'}}>{deck.deck_name}</Card.Text>
       </Link>
     </Card>
   );

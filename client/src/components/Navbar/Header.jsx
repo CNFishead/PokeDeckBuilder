@@ -41,7 +41,7 @@ const Header = () => {
               </span>
             </Navbar.Brand>
           </Link>
-          <h3>Pokemon - TCG Deck Builder</h3>
+          <h3 className="px-2">Pokemon - TCG Deck Builder</h3>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
             id="basic-navbar-nav"
