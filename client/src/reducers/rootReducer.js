@@ -6,6 +6,7 @@ import { userLoginReducer } from "./authReducer";
 import {
   cardsReducer,
   deckCreateReducer,
+  deckPreviewReducer,
   getDeckReducer,
   listDeckReducer,
   updateDeckReducer,
@@ -29,4 +30,6 @@ export const rootReducer = combineReducers({
   cards: cardsReducer,
   // upload reducers,
   imageUploader: uploadImageReducer,
+  // pdf
+  preview: deckPreviewReducer,
 });

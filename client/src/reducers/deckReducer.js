@@ -4,6 +4,9 @@ import {
   DECK_CREATE_REQUEST,
   DECK_CREATE_RESET,
   DECK_CREATE_SUCCESS,
+  DECK_PREVIEW_FAIL,
+  DECK_PREVIEW_REQUEST,
+  DECK_PREVIEW_SUCCESS,
   GET_CARDS_FAIL,
   GET_CARDS_REQUEST,
   GET_CARDS_SUCCESS,
@@ -83,6 +86,19 @@ export const deckCreateReducer = (
       return { loading: false, error: action.payload };
     case DECK_CREATE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const deckPreviewReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DECK_PREVIEW_REQUEST:
+      return { loading: true };
+    case DECK_PREVIEW_SUCCESS:
+      return { loading: false, pdf: action.payload };
+    case DECK_PREVIEW_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

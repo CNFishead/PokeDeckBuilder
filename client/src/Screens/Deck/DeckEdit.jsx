@@ -10,7 +10,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { removeCard } from "../../actions/Deck/removeCard";
 import { getDeck } from "../../actions/Deck/getDeck";
 import { updateDeck } from "../../actions/Deck/updateDeck";
@@ -21,10 +21,12 @@ import "./index.css";
 import { addCard } from "../../actions/Deck/addCard";
 import { getCards } from "../../actions/Cards/getCards";
 import { CARDS_CLEAR } from "../../constants/deckConstants";
+import { generatePdf } from "../../actions/Deck/generatePdf";
 
 const DeckEdit = () => {
   const { deckId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Component State
   const [deckForm, setDeckForm] = useState({
@@ -37,9 +39,7 @@ const DeckEdit = () => {
   const { deck, loading } = useSelector((state) => state.listDeckDetails);
   const { imageUrl } = useSelector((state) => state.imageUploader);
   const { cards, loading: cardsLoading } = useSelector((state) => state.cards);
-  const { loading: updateLoader } = useSelector(
-    (state) => state.updateDeck
-  );
+  const { loading: updateLoader } = useSelector((state) => state.updateDeck);
 
   const handleChange = (e) => {
     setDeckForm({ ...deckForm, [e.target.name]: e.target.value });
@@ -48,7 +48,11 @@ const DeckEdit = () => {
     e.preventDefault();
     dispatch(updateDeck(deckForm));
   };
+  const { pdf } = useSelector((state) => state.preview);
   useEffect(() => {
+    // if (pdf) {
+    //   navigate("/dashboard/deck/preview");
+    // }
     if (deckId !== deck._id) {
       dispatch(getDeck(deckId));
     } else {
@@ -60,16 +64,27 @@ const DeckEdit = () => {
     if (imageUrl) {
       setDeckForm({ ...deckForm, image: imageUrl });
     }
-  
-  }, [dispatch, deckId, deck, imageUrl, search]);
+  }, [dispatch, deckId, deck, imageUrl, search, pdf]);
+
+  const generatePreview = () => {
+    // hit the api to get to generate the pdf of the deck
+    dispatch(generatePdf(deckId));
+    // then we need to download that pdf
+  };
+
   return (
-    <Container style={{padding: '2.5%'}}>
+    <Container style={{ padding: "2.5%" }}>
       {loading && updateLoader ? (
         <Loader />
       ) : (
         <>
           <Row className="text-center">
             <h1>{deck.deck_name}</h1>
+          </Row>
+          <Row className="">
+            <Button variant="primary" onClick={generatePreview}>
+              PDF
+            </Button>
           </Row>
           <Row>
             <Col className="text-center" lg={6}>

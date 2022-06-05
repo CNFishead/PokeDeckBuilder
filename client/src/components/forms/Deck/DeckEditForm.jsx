@@ -1,7 +1,8 @@
-import React, { useEffect, } from "react";
-import { Button,  FloatingLabel, Form, Row } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Button, FloatingLabel, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage } from "../../../utils/uploadImage";
+import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader";
 
 const DeckEditForm = ({
@@ -10,11 +11,13 @@ const DeckEditForm = ({
   form: { deck_name, type, image: imageURL2 },
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // App State
   const { loading: uploading, imageUrl } = useSelector(
     (state) => state.imageUploader
   );
+
   const uploadFileHandler = (e) => {
     dispatch(uploadImage(e.target.files));
   };
@@ -69,7 +72,6 @@ const DeckEditForm = ({
               type="file"
               id="image-file"
               label="Choose File"
-              custom
               onChange={(e) => uploadFileHandler(e)}
             ></Form.Control>
           </Form.Group>
