@@ -68,7 +68,7 @@ const DeckEdit = () => {
 
   const generatePreview = () => {
     // hit the api to get to generate the pdf of the deck
-    dispatch(generatePdf(deckId));
+    dispatch(generatePdf(deckForm));
     // then we need to download that pdf
   };
 

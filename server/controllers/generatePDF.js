@@ -2,6 +2,7 @@ const pdf = require("html-pdf");
 const asyncHandler = require("../middleware/async");
 const { error: errorHandler } = require("../middleware/error");
 const fs = require("fs");
+const path = require("path");
 
 const Deck = require("../models/deckModel");
 const DeckListTemp = require("../templates/DeckListTemp");
@@ -41,7 +42,7 @@ module.exports = asyncHandler(async (req, res, next) => {
       }
     });
     // console log one card so we can see what we're working with
-    console.log(deck.cards[0]);
+    // console.log(deck.cards[0]);
     // pass the deck to the template
     const html = DeckListTemp(deck, logo.value);
     // set up the html-to-pdf converter
@@ -66,20 +67,51 @@ module.exports = asyncHandler(async (req, res, next) => {
             left: "1in",
           },
         })
-        .toStream(async function (err, stream) {
-          if (err) {
-            console.log(err);
-          } else {
-            // pipe the stream to a file
-            console.log(`Document created for ${deck.deck_name}`);
-            res.writeHead(200, {
-              "Content-Disposition": "application/pdf",
-              filename: `${deck.deck_name}.pdf`,
-            });
-            stream.pipe(res);
+        .toFile(
+          `${__dirname}../../../public/pdf/${deck.deck_name
+            .substring(0, 50)
+            .replace(/\//g, " ")}.pdf`,
+          async function (err, res) {
+            if (err) {
+              return res.status(500).json({
+                message: "Error creating PDF",
+                error: err,
+              });
+            }
+            
           }
-        }),
+        ),
     ]);
+    try {
+      console.log(`Document created for ${deck.deck_name}`);
+      // create a readable stream from the file
+      console.log(
+        `creating readable stream from ${deck.deck_name
+          .substring(0, 50)
+          .replace(/\//g, " ")}.pdf`
+      );
+      // pipe the readable stream to the res
+      res.setHeader(
+        "Content-disposition",
+        `inline; filename=${deck.deck_name}.pdf`
+      );
+      await fs
+        .createReadStream(
+          path.join(
+            `${__dirname}../../../public/pdf/${deck.deck_name
+              .substring(0, 50)
+              .replace(/\//g, " ")}.pdf`
+          )
+        )
+        .pipe(res, { end: true });
+      // path.join(
+      //   `${__dirname}../../../public/pdf/${deck.deck_name
+      //     .substring(0, 50)
+      //     .replace(/\//g, " ")}.pdf`
+      // ),
+    } catch (error) {
+      console.error(error);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({

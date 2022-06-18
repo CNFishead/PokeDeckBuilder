@@ -5,27 +5,35 @@ import {
 } from "../../constants/deckConstants";
 import { setAlert } from "../../utils/alert";
 
-export const generatePdf = (deckId) => async (dispatch) => {
+export const generatePdf = (deck) => async (dispatch) => {
   try {
     dispatch({ type: DECK_PREVIEW_REQUEST });
-    const data = await axios.post(`/api/deck/${deckId}/pdf`);
-    console.log(data);
-    // 1. Convert the data into 'blob'
-    // 2. Create blob link to download
-    console.log(`create a link to download the pdf`);
-    const url = data.data;
-    // console.log(`blob url is ${url}`);
+    const config = {
+      headers: {
+        "Content-Type": "application/force-download",
+      },
+    };
+    const data = await axios.post(`/api/deck/${deck._id}/pdf`, config);
+    // console.log(data);
+    // Create blob link to download
+    // const blob = new Blob([data.data], { type: "application/pdf" });
+    console.log(data.data);
+    // url encode deck name
+    deck.deck_name = deck.deck_name.replace(/\//g, " ");
+    const url = `/pdf/${deck.deck_name}.pdf`
     const link = document.createElement("a");
-    console.log(`created link`);
     link.href = url;
-    link.setAttribute("download", `${data.data}.pdf`);
-    // 3. Append to html page
+    link.setAttribute("download", `${deck.deck_name}.pdf`);
+
+    // Append to html link element page
     document.body.appendChild(link);
-    // 4. Force download
+
+    // Start download
     link.click();
-    // 5. Clean up and remove the link
+
+    // Clean up and remove the link
     link.parentNode.removeChild(link);
-    dispatch({ type: DECK_PREVIEW_SUCCESS, payload: data });
+    dispatch({ type: DECK_PREVIEW_SUCCESS });
   } catch (error) {
     console.error(error);
     dispatch(setAlert(`problem generating pdf ${error}`, "danger"));
